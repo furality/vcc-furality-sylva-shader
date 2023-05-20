@@ -1,0 +1,20 @@
+{
+  "name": "Furality Sylva Shader",
+  "id": "com.furality.sylvashader",
+  "version": "1.0.0",
+  "description": "Furality Sylva Avatar Shader for VRChat.\nCreated by Naito @ Furality, Inc.",
+  "gitDependencies": {},
+  "author": {
+    "email": "help@furality.org",
+    "name": "Furality, Inc.",
+    "url": "https://furality.org"
+  },
+  "vpmDependencies": {
+    "com.llealloo.audiolink": "0.3.2"
+  },
+  "legacyFolders": {},
+  "legacyFiles": {},
+  "localPath": "Packages\\com.furality.sylvashader",
+  "hideInEditor": false,
+  "license": "Furality, Inc. Asset License"
+}
