@@ -27,7 +27,7 @@ Shader "Furality/Sylva Shader/Sylva Cutout"
 		[Normal][SingleLineTexture]_BumpMap("Normal", 2D) = "bump" {}
 		[Enum(None,10,Bass,0,Low Mid,1,High Mid,2,Treble,3)]_OutlineReactiveBand("OutlineReactiveBand", Int) = 10
 		_BumpScale("Normal Scale", Range( 0 , 1)) = 1
-		[SingleLineTexture]_MetallicGlossMap("Metallic", 2D) = "black" {}
+		[SingleLineTexture]_MetallicGlossMap("Metallic", 2D) = "white" {}
 		_OutlineReactiveDelay("OutlineReactiveDelay", Int) = 0
 		_Metallic("Metallic", Range( 0 , 1)) = 0
 		[Enum(Global,0,Pulse,1,Radial,2,Direction Map,3,Reversed Direction Map,4,Smooth Global,5)]_OutlineReactiveMode("OutlineReactiveMode", Int) = 0
@@ -3276,7 +3276,6 @@ Node;AmplifyShaderEditor.SamplerNode;380;-2930.957,-2386.695;Inherit;True;Proper
 Node;AmplifyShaderEditor.ColorNode;383;-2699.411,-2185.3;Inherit;False;Property;_SpecColor;Specular Color;39;0;Fetch;False;0;0;0;False;0;False;1,1,1,0;0.3169973,0.3169973,0.3169973,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.RangedFloatNode;1065;-1840.527,-3445.194;Inherit;False;Property;_ShowMain;ShowMain;206;1;[HideInInspector];Create;True;0;0;0;True;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;302;-3285.939,-3140.613;Inherit;False;Property;_BumpScale;Normal Scale;22;0;Create;False;0;0;0;False;0;False;1;1;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;246;-2794.355,-3038.931;Inherit;True;Property;_MetallicGlossMap;Metallic;23;1;[SingleLineTexture];Create;False;0;0;0;False;0;False;-1;None;f2c6f9ea8a04acf46b40ee0b846c7d83;True;0;False;black;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.RangedFloatNode;391;-2771.034,-2477.877;Inherit;False;Property;_OcclusionStrength;Occlusion Strength;34;0;Create;True;0;0;0;False;0;False;1;1;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SamplerNode;223;-2790.1,-3446.149;Inherit;True;Property;_MainTex;Main Tex;0;0;Create;True;0;0;0;False;0;False;-1;None;0a92f98f03d58ac449724fa4a3f0e1f8;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SamplerNode;241;-2788.6,-3244.549;Inherit;True;Property;_BumpMap;Normal;20;2;[Normal];[SingleLineTexture];Create;False;0;0;0;False;0;False;-1;None;55479011db618034693440f32dbe9240;True;0;True;bump;Auto;True;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
@@ -3412,6 +3411,7 @@ Node;AmplifyShaderEditor.SimpleSubtractOpNode;1223;-2227.882,-3120.286;Inherit;F
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;1224;-2094.882,-3187.286;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.DynamicAppendNode;1225;-1957.882,-3234.286;Inherit;False;FLOAT3;4;0;FLOAT2;0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;243;-1801.6,-3242.549;Inherit;False;Normal;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.SamplerNode;246;-2794.355,-3038.931;Inherit;True;Property;_MetallicGlossMap;Metallic;23;1;[SingleLineTexture];Create;False;0;0;0;False;0;False;-1;None;f2c6f9ea8a04acf46b40ee0b846c7d83;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 WireConnection;388;0;302;0
 WireConnection;388;1;389;0
 WireConnection;101;0;100;0
@@ -3721,7 +3721,6 @@ WireConnection;1059;0;488;0
 WireConnection;1060;0;494;0
 WireConnection;786;0;1062;0
 WireConnection;380;1;393;0
-WireConnection;246;1;269;0
 WireConnection;223;1;225;0
 WireConnection;241;1;242;0
 WireConnection;241;5;388;0
@@ -3811,5 +3810,6 @@ WireConnection;1224;1;1223;0
 WireConnection;1225;0;241;0
 WireConnection;1225;2;1224;0
 WireConnection;243;0;1225;0
+WireConnection;246;1;269;0
 ASEEND*/
-//CHKSM=EBE12E25AA1AE1DAB19F45123B1FE562892B2F31
+//CHKSM=C8AF56DF5FE578C4E419583E371C3A24B58401BA

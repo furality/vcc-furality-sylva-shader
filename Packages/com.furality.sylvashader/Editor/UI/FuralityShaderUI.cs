@@ -94,7 +94,7 @@ public class FuralityShaderUI : ShaderGUI
     void SetLogoImage()
     {
         //Load logo image
-        logoImage = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/furality.sylvashader/Runtime/UI/SylvaIcon.png");
+        logoImage = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/com.furality.sylvashader/Runtime/UI/SylvaIcon.png");
 
         // Center the image in a horizontal and vertical layout group
         GUILayout.BeginHorizontal();
@@ -315,9 +315,11 @@ public class FuralityShaderUI : ShaderGUI
         MaterialProperty Smoothness = FindProperty("_Glossiness");
         MaterialProperty SmoothnessScale = FindProperty("_GlossMapScale");
 
-        editor.TexturePropertySingleLine(
-            MakeLabel("Metallic", "Tooltip Here"), Tex,
-            Tex.textureValue ? InlineProperty : null);
+        //editor.TexturePropertySingleLine(
+        //    MakeLabel("Metallic", "Tooltip Here"), Tex,
+        //    Tex.textureValue ? InlineProperty : null);
+
+        editor.TexturePropertySingleLine(MakeLabel("Metallic", "Tooltip Here"), Tex, InlineProperty);
 
         EditorGUI.indentLevel += 2;
         if (Tex.textureValue != null)
