@@ -207,7 +207,7 @@ public class FuralityShaderUI : ShaderGUI
             {
                 MaterialProperty redTog = FindProperty("_EnableRedChannel");
                 EditorGUI.indentLevel += 2;
-                editor.ShaderProperty(redTog, MakeLabel("Enable Red Channel", "Tooltip Here"));
+                editor.ShaderProperty(redTog, MakeLabel("Enable Red Channel", "Use Luma Glow with Glow Mask(R)"));
                 EditorGUI.indentLevel -= 2;
                 if (target.GetFloat("_EnableRedChannel") == 1)
                 {
@@ -217,7 +217,7 @@ public class FuralityShaderUI : ShaderGUI
 
                 MaterialProperty greenTog = FindProperty("_EnableGreenChannel");
                 EditorGUI.indentLevel += 2;
-                editor.ShaderProperty(greenTog, MakeLabel("Enable Green Channel", "Tooltip Here"));
+                editor.ShaderProperty(greenTog, MakeLabel("Enable Green Channel", "Use Luma Glow with Glow Mask(G)"));
                 EditorGUI.indentLevel -= 2;
                 if (target.GetFloat("_EnableGreenChannel") == 1)
                 {
@@ -227,7 +227,7 @@ public class FuralityShaderUI : ShaderGUI
 
                 MaterialProperty blueTog = FindProperty("_EnableBlueChannel");
                 EditorGUI.indentLevel += 2;
-                editor.ShaderProperty(blueTog, MakeLabel("Enable Blue Channel", "Tooltip Here"));
+                editor.ShaderProperty(blueTog, MakeLabel("Enable Blue Channel", "Use Luma Glow with Glow Mask(B)"));
                 EditorGUI.indentLevel -= 2;
                 if (target.GetFloat("_EnableBlueChannel") == 1)
                 {
@@ -237,7 +237,7 @@ public class FuralityShaderUI : ShaderGUI
 
                 MaterialProperty alphaTog = FindProperty("_EnableAlphaChannel");
                 EditorGUI.indentLevel += 2;
-                editor.ShaderProperty(alphaTog, MakeLabel("Enable Alpha Channel", "Tooltip Here"));
+                editor.ShaderProperty(alphaTog, MakeLabel("Enable Alpha Channel", "Use Luma Glow with Glow Mask(A)"));
                 EditorGUI.indentLevel -= 2;
                 if (target.GetFloat("_EnableAlphaChannel") == 1)
                 {
@@ -301,7 +301,7 @@ public class FuralityShaderUI : ShaderGUI
     {
         MaterialProperty mainTex = FindProperty("_MainTex");
         MaterialProperty mainColor = FindProperty("_Color");
-        editor.TexturePropertySingleLine(MakeLabel("Main Tex", "Tooltip Here"), mainTex, mainColor);
+        editor.TexturePropertySingleLine(MakeLabel("Main Tex", "Texture, main colors with alpha"), mainTex, mainColor);
         EditorGUI.indentLevel += 2;
         editor.TextureScaleOffsetProperty(mainTex);
         EditorGUI.indentLevel -= 2;
@@ -316,19 +316,19 @@ public class FuralityShaderUI : ShaderGUI
         MaterialProperty SmoothnessScale = FindProperty("_GlossMapScale");
 
         //editor.TexturePropertySingleLine(
-        //    MakeLabel("Metallic", "Tooltip Here"), Tex,
+        //    MakeLabel("Metallic", "uwu this is an easter egg I guess :3"), Tex,
         //    Tex.textureValue ? InlineProperty : null);
 
-        editor.TexturePropertySingleLine(MakeLabel("Metallic", "Tooltip Here"), Tex, InlineProperty);
+        editor.TexturePropertySingleLine(MakeLabel("Metallic", "Texture, R: Metallic, A: Smoothness"), Tex, InlineProperty);
 
         EditorGUI.indentLevel += 2;
         if (Tex.textureValue != null)
         {
-            editor.ShaderProperty(SmoothnessScale, MakeLabel("Smoothness", "Tooltip Here"));
+            editor.ShaderProperty(SmoothnessScale, MakeLabel("Smoothness", "How reflective the material is"));
         }
         else
         {
-            editor.ShaderProperty(Smoothness, MakeLabel("Smoothness", "Tooltip Here"));
+            editor.ShaderProperty(Smoothness, MakeLabel("Smoothness", "How reflective the material is"));
         }
         EditorGUI.indentLevel -= 2;
     }
@@ -346,7 +346,7 @@ public class FuralityShaderUI : ShaderGUI
         EditorGUI.indentLevel -= 2;
         if (target.GetFloat("_EnableSpecularMap") == 1)
         {
-            editor.TexturePropertySingleLine(MakeLabel("Specular Map", "Tooltip Here"), Tex, SpecColor);
+            editor.TexturePropertySingleLine(MakeLabel("Specular Map", "Texture, tints the color of specular highlights"), Tex, SpecColor);
         }
     }
 
@@ -355,7 +355,7 @@ public class FuralityShaderUI : ShaderGUI
     {
         MaterialProperty tex = FindProperty("_BumpMap");
         MaterialProperty scale = FindProperty("_BumpScale");
-        editor.TexturePropertySingleLine(MakeLabel("Normal Map", "Tooltip Here"), tex, scale);
+        editor.TexturePropertySingleLine(MakeLabel("Normal Map", "Texture to simulate bumps"), tex, scale);
     }
 
     //Occlusion
@@ -363,14 +363,14 @@ public class FuralityShaderUI : ShaderGUI
     {
         MaterialProperty tex = FindProperty("_OcclusionMap");
         MaterialProperty scale = FindProperty("_OcclusionStrength");
-        editor.TexturePropertySingleLine(MakeLabel("Occlusion Map", "Tooltip Here"), tex, scale);
+        editor.TexturePropertySingleLine(MakeLabel("Occlusion Map", "Texture, adds shadow detail"), tex, scale);
     }
 
     //Effect Mask
     void DoEffectMask()
     {
         MaterialProperty tex = FindProperty("_EffectMask");
-        editor.TexturePropertySingleLine(MakeLabel("Effect Mask", "Tooltip Here"), tex);
+        editor.TexturePropertySingleLine(MakeLabel("Effect Mask", "Texture, masks effects using color channels (RGBA)"), tex);
         EditorGUI.indentLevel += 2;
         editor.TextureScaleOffsetProperty(tex);
         EditorGUI.indentLevel -= 2;
@@ -393,7 +393,7 @@ public class FuralityShaderUI : ShaderGUI
         float maskCHfl = target.GetFloat("_EmissionMaskingChannel");
 
         EditorGUI.indentLevel += 2;
-        editor.ShaderProperty(tog, MakeLabel("Enable Emission", "Tooltip Here"));
+        editor.ShaderProperty(tog, MakeLabel("Enable Emission", "Texture/color, adds glow"));
         EditorGUI.indentLevel -= 2;
         editor.TexturePropertySingleLine(MakeLabel("Emission"), tex, color);
         EditorGUI.indentLevel += 2;
@@ -401,19 +401,19 @@ public class FuralityShaderUI : ShaderGUI
 
         if (togfl == 1)
         {
-            editor.ShaderProperty(maskCH, MakeLabel("Masking Channel", "Tooltip Here"));
+            editor.ShaderProperty(maskCH, MakeLabel("Masking Channel", "Hides emissions by an Effect Mask color channel"));
             if (maskCHfl > 0)
             {
-                editor.ShaderProperty(maskTog, MakeLabel("Mask Panning", "Tooltip Here"));
+                editor.ShaderProperty(maskTog, MakeLabel("Mask Panning", "Animated emission mask"));
                 if (maskTogfl == 1)
                 {
-                    editor.ShaderProperty(maskSpeed, MakeLabel("Mask Speed", "Tooltip Here"));
+                    editor.ShaderProperty(maskSpeed, MakeLabel("Mask Speed", "Animation speed"));
                 }
             }
-            editor.ShaderProperty(panTog, MakeLabel("Emission Panning", "Tooltip Here"));
+            editor.ShaderProperty(panTog, MakeLabel("Emission Panning", "Animated emissions"));
             if (panTogfl == 1)
             {
-                editor.ShaderProperty(panSpeed, MakeLabel("Emission Speed", "Tooltip Here"));
+                editor.ShaderProperty(panSpeed, MakeLabel("Emission Speed", "Animation speed"));
             }
         }
         EditorGUI.indentLevel -= 2;
@@ -446,11 +446,11 @@ public class FuralityShaderUI : ShaderGUI
             EditorGUI.indentLevel += 1;
             target.SetFloat("_ShowOutline", 1);
 
-            editor.ShaderProperty(maskCH, MakeLabel("Masking Channel", "Tooltip Here"));
+            editor.ShaderProperty(maskCH, MakeLabel("Masking Channel", "Hides outlines by an Effect Mask color channel"));
             editor.ShaderProperty(color, MakeLabel("Color"));
             editor.ShaderProperty(width, MakeLabel("Width"));
-            editor.ShaderProperty(maxWidth, MakeLabel("Max Width", "Tooltip Here"));
-            editor.ShaderProperty(fudge, MakeLabel("Push Outline", "Tooltip Here"));
+            editor.ShaderProperty(maxWidth, MakeLabel("Max Width", "Maximum distance scaling width"));
+            editor.ShaderProperty(fudge, MakeLabel("Push Outline", "Helps fix ugly internal outlines"));
             EditorGUI.indentLevel -= 1;
         }
         else
@@ -487,11 +487,11 @@ public class FuralityShaderUI : ShaderGUI
             EditorGUI.indentLevel += 1;
             target.SetFloat("_ShowOutline2", 1);
 
-            editor.ShaderProperty(maskCH, MakeLabel("Masking Channel", "Tooltip Here"));
+            editor.ShaderProperty(maskCH, MakeLabel("Masking Channel", "Hides outlines by an Effect Mask color channel"));
             editor.ShaderProperty(color, MakeLabel("Color"));
             editor.ShaderProperty(width, MakeLabel("Width"));
-            editor.ShaderProperty(maxWidth, MakeLabel("Max Width", "Tooltip Here"));
-            editor.ShaderProperty(fudge, MakeLabel("Push Outline", "Tooltip Here"));
+            editor.ShaderProperty(maxWidth, MakeLabel("Max Width", "Maximum distance scaling width"));
+            editor.ShaderProperty(fudge, MakeLabel("Push Outline", "Helps fix ugly internal outlines"));
             EditorGUI.indentLevel -= 1;
         }
         else
@@ -507,7 +507,7 @@ public class FuralityShaderUI : ShaderGUI
         MaterialProperty clip = FindProperty("_Culling");
         //MaterialProperty cull = FindProperty("");
         EditorGUI.indentLevel += 2;
-        editor.ShaderProperty(clip, MakeLabel("Culling", "Tooltip Here"));
+        editor.ShaderProperty(clip, MakeLabel("Culling"));
         EditorGUI.indentLevel -= 2;
     }
 
@@ -517,11 +517,11 @@ public class FuralityShaderUI : ShaderGUI
         MaterialProperty map = FindProperty("_DirectionalMap");
         MaterialProperty mask = FindProperty("_GlowMask");
 
-        editor.TexturePropertySingleLine(MakeLabel("Direction Map", "Tooltip Here"), map);
+        editor.TexturePropertySingleLine(MakeLabel("Direction Map", "Helps fix UV seams and add detail"), map);
         EditorGUI.indentLevel += 2;
         editor.TextureScaleOffsetProperty(map);
         EditorGUI.indentLevel -= 2;
-        editor.TexturePropertySingleLine(MakeLabel("Glow Mask", "Tooltip Here"), mask);
+        editor.TexturePropertySingleLine(MakeLabel("Glow Mask", "Texture, hides glow effects using color channels (RGBA)"), mask);
         EditorGUI.indentLevel += 2;
         editor.TextureScaleOffsetProperty(mask);
         EditorGUI.indentLevel -= 2;
@@ -532,7 +532,7 @@ public class FuralityShaderUI : ShaderGUI
     {
         Zone operation = (Zone)target.GetFloat("_EmissionGlowZone");
         EditorGUI.BeginChangeCheck();
-        operation = (Zone)EditorGUILayout.EnumPopup(MakeLabel("Zone", "Tooltip Here"), operation);
+        operation = (Zone)EditorGUILayout.EnumPopup(MakeLabel("Zone", "Select a zone to enable Luma Glow, masked by Emission"), operation);
 
         if (EditorGUI.EndChangeCheck())
         {
@@ -579,32 +579,32 @@ public class FuralityShaderUI : ShaderGUI
 
             if (target.GetFloat("_EmissionGlowZone") > 0)
             {
-                editor.ShaderProperty(Mode, MakeLabel("Mode", "Tooltip Here"));
-                editor.ShaderProperty(BlendMode, MakeLabel("Blend Mode", "Tooltip Here"));
+                editor.ShaderProperty(Mode, MakeLabel("Mode", "Animation type"));
+                editor.ShaderProperty(BlendMode, MakeLabel("Blend Mode", "How the effect combines"));
                 editor.ColorProperty(Tint, "Tint");
-                editor.ShaderProperty(MinBrightness, MakeLabel("Min Brightness", "Tooltip Here"));
+                editor.ShaderProperty(MinBrightness, MakeLabel("Min Brightness", "Limits how dim effects become"));
 
                 if (target.GetFloat("_EmissionGlowZone") > 4 || target.GetFloat("_EmissionGlowMode") > 0)
                 {
                     if (target.GetFloat("_EmissionGlowMode") < 2)
                     {
-                        editor.ShaderProperty(PulseDir, MakeLabel("Pulse Dir", "Tooltip Here"));
+                        editor.ShaderProperty(PulseDir, MakeLabel("Pulse Dir", "Pulse mode animation direction"));
                     }
-                    editor.ShaderProperty(PulseScale, MakeLabel("Pulse Scale", "Tooltip Here"));
-                    editor.ShaderProperty(PulseOffset, MakeLabel("Pulse Offset", "Tooltip Here"));
+                    editor.ShaderProperty(PulseScale, MakeLabel("Pulse Scale", "Pulse mode animation scale"));
+                    editor.ShaderProperty(PulseOffset, MakeLabel("Pulse Offset", "Pulse mode animation offset"));
                 }
 
                 if (target.GetFloat("_EmissionGlowMode") == 2)
                 {
-                    editor.ShaderProperty(PulseCenter, MakeLabel("Radial Center", "Tooltip Here"));
+                    editor.ShaderProperty(PulseCenter, MakeLabel("Radial Center", "Radial mode animation center"));
                 }
 
-                if (target.GetFloat("_SparkleGlowZone") > 4 || target.GetFloat("_SparkleGlowMode") > 0)
+                if (target.GetFloat("_EmissionGlowZone") > 4 || target.GetFloat("_EmissionGlowMode") > 0)
                 {
-                editor.ShaderProperty(AnimBand, MakeLabel("Animation Band", "Tooltip Here"));
-                editor.ShaderProperty(AnimMode, MakeLabel("Animation Mode", "Tooltip Here"));
-                editor.ShaderProperty(AnimSpeed, MakeLabel("Animation Speed", "Tooltip Here"));
-                editor.ShaderProperty(AnimStr, MakeLabel("Animation Strength", "Tooltip Here"));
+                editor.ShaderProperty(AnimBand, MakeLabel("Animation Band", "AudioLink: Audio band to listen to"));
+                editor.ShaderProperty(AnimMode, MakeLabel("Animation Mode", "AudioLink: Animation type"));
+                editor.ShaderProperty(AnimSpeed, MakeLabel("Animation Speed", "AudioLink: Animation Speed/Chronotensity"));
+                editor.ShaderProperty(AnimStr, MakeLabel("Animation Strength", "AudioLink: Animation Strength"));
                 }
 
             }
@@ -652,24 +652,24 @@ public class FuralityShaderUI : ShaderGUI
 
             if (target.GetFloat("_EmissionReactiveBand") < 10)
             {
-                editor.ShaderProperty(Mode, MakeLabel("Mode", "Tooltip Here"));
-                editor.ShaderProperty(BlendMode, MakeLabel("Blend Mode", "Tooltip Here"));
+                editor.ShaderProperty(Mode, MakeLabel("Mode", "AudioLink: Animation Type"));
+                editor.ShaderProperty(BlendMode, MakeLabel("Blend Mode", "AudioLink: How the effect combines"));
                 editor.ColorProperty(Tint, "Tint");
-                editor.ShaderProperty(MinBrightness, MakeLabel("Min Brightness", "Tooltip Here"));
+                editor.ShaderProperty(MinBrightness, MakeLabel("Min Brightness", "AudioLink: Limits how dim effects become"));
 
                 if (target.GetFloat("_EmissionReactiveBand") > 4 || target.GetFloat("_EmissionReactiveMode") > 0 && target.GetFloat("_EmissionReactiveMode") != 5)
                 {
                     if (target.GetFloat("_EmissionReactiveMode") < 2)
                     {
-                        editor.ShaderProperty(PulseDir, MakeLabel("Pulse Dir", "Tooltip Here"));
+                        editor.ShaderProperty(PulseDir, MakeLabel("Pulse Dir", "AudioLink: Pulse mode animation direction"));
                     }
-                    editor.ShaderProperty(PulseScale, MakeLabel("Pulse Scale", "Tooltip Here"));
-                    editor.ShaderProperty(PulseOffset, MakeLabel("Pulse Offset", "Tooltip Here"));
+                    editor.ShaderProperty(PulseScale, MakeLabel("Pulse Scale", "AudioLink: Pulse mode animation scale"));
+                    editor.ShaderProperty(PulseOffset, MakeLabel("Pulse Offset", "AudioLink: Pulse mode animation offset"));
                 }
 
                 if (target.GetFloat("_EmissionReactiveMode") == 2)
                 {
-                    editor.ShaderProperty(PulseCenter, MakeLabel("Radial Center", "Tooltip Here"));
+                    editor.ShaderProperty(PulseCenter, MakeLabel("Radial Center", "AudioLink: Radial mode animation center"));
                 }
             }
             EditorGUI.indentLevel -= 1;
@@ -686,7 +686,7 @@ public class FuralityShaderUI : ShaderGUI
     {
         Zone operation = (Zone)target.GetFloat("_OutlineGlowZone");
         EditorGUI.BeginChangeCheck();
-        operation = (Zone)EditorGUILayout.EnumPopup(MakeLabel("Zone", "Tooltip Here"), operation);
+        operation = (Zone)EditorGUILayout.EnumPopup(MakeLabel("Zone", "Select a zone to enable Luma Glow, masked by outline"), operation);
 
         if (EditorGUI.EndChangeCheck())
         {
@@ -729,24 +729,24 @@ public class FuralityShaderUI : ShaderGUI
 
             if (target.GetFloat("_OutlineGlowZone") > 0)
             {
-                editor.ShaderProperty(Mode, MakeLabel("Mode", "Tooltip Here"));
-                editor.ShaderProperty(BlendMode, MakeLabel("Blend Mode", "Tooltip Here"));
+                editor.ShaderProperty(Mode, MakeLabel("Mode", "Animation type"));
+                editor.ShaderProperty(BlendMode, MakeLabel("Blend Mode", "How the effects combine"));
                 editor.ColorProperty(Tint, "Tint");
-                editor.ShaderProperty(MinBrightness, MakeLabel("Min Brightness", "Tooltip Here"));
+                editor.ShaderProperty(MinBrightness, MakeLabel("Min Brightness", "Limits how dim effects become"));
 
                 if (target.GetFloat("_OutlineGlowZone") > 4 || target.GetFloat("_OutlineGlowMode") > 0)
                 {
                     if (target.GetFloat("_OutlineGlowMode") < 2)
                     {
-                        editor.ShaderProperty(PulseDir, MakeLabel("Pulse Dir", "Tooltip Here"));
+                        editor.ShaderProperty(PulseDir, MakeLabel("Pulse Dir", "Pulse mode animation direction"));
                     }
-                    editor.ShaderProperty(PulseScale, MakeLabel("Pulse Scale", "Tooltip Here"));
-                    editor.ShaderProperty(PulseOffset, MakeLabel("Pulse Offset", "Tooltip Here"));
+                    editor.ShaderProperty(PulseScale, MakeLabel("Pulse Scale", "Pulse mode animation scale"));
+                    editor.ShaderProperty(PulseOffset, MakeLabel("Pulse Offset", "Pulse mode animation offset"));
                 }
 
                 if (target.GetFloat("_OutlineGlowMode") == 2)
                 {
-                    editor.ShaderProperty(PulseCenter, MakeLabel("Radial Center", "Tooltip Here"));
+                    editor.ShaderProperty(PulseCenter, MakeLabel("Radial Center", "Radial mode animation center"));
                 }
             }
             EditorGUI.indentLevel -= 1;
@@ -793,24 +793,24 @@ public class FuralityShaderUI : ShaderGUI
 
             if (target.GetFloat("_OutlineReactiveBand") < 10)
             {
-                editor.ShaderProperty(Mode, MakeLabel("Mode", "Tooltip Here"));
-                editor.ShaderProperty(BlendMode, MakeLabel("Blend Mode", "Tooltip Here"));
+                editor.ShaderProperty(Mode, MakeLabel("Mode", "AudioLink: Animation type"));
+                editor.ShaderProperty(BlendMode, MakeLabel("Blend Mode", "AudioLink: How the effect combines"));
                 editor.ColorProperty(Tint, "Tint");
-                editor.ShaderProperty(MinBrightness, MakeLabel("Min Brightness", "Tooltip Here"));
+                editor.ShaderProperty(MinBrightness, MakeLabel("Min Brightness", "AudioLink: Limits how dim effects become"));
 
                 if (target.GetFloat("_OutlineReactiveBand") > 4 || target.GetFloat("_OutlineReactiveMode") > 0 && target.GetFloat("_OutlineReactiveMode") != 5)
                 {
                     if (target.GetFloat("_OutlineReactiveMode") < 2)
                     {
-                        editor.ShaderProperty(PulseDir, MakeLabel("Pulse Dir", "Tooltip Here"));
+                        editor.ShaderProperty(PulseDir, MakeLabel("Pulse Dir", "AudioLink: Pulse mode animation direction"));
                     }
-                    editor.ShaderProperty(PulseScale, MakeLabel("Pulse Scale", "Tooltip Here"));
-                    editor.ShaderProperty(PulseOffset, MakeLabel("Pulse Offset", "Tooltip Here"));
+                    editor.ShaderProperty(PulseScale, MakeLabel("Pulse Scale", "AudioLink: Pulse mode animation scale"));
+                    editor.ShaderProperty(PulseOffset, MakeLabel("Pulse Offset", "AudioLink: Pulse mode animation offset"));
                 }
 
                 if (target.GetFloat("_OutlineReactiveMode") == 2)
                 {
-                    editor.ShaderProperty(PulseCenter, MakeLabel("Radial Center", "Tooltip Here"));
+                    editor.ShaderProperty(PulseCenter, MakeLabel("Radial Center", "AudioLink: Radial mode animation center"));
                 }
             }
             EditorGUI.indentLevel -= 1;
@@ -827,7 +827,7 @@ public class FuralityShaderUI : ShaderGUI
     {
         Zone operation = (Zone)target.GetFloat("_RedChGlowZone");
         EditorGUI.BeginChangeCheck();
-        operation = (Zone)EditorGUILayout.EnumPopup(MakeLabel("Zone", "Tooltip Here"), operation);
+        operation = (Zone)EditorGUILayout.EnumPopup(MakeLabel("Zone", "Select a zone to enable Luma Glow, masked by Glow Mask(R)"), operation);
 
         if (EditorGUI.EndChangeCheck())
         {
@@ -874,31 +874,31 @@ public class FuralityShaderUI : ShaderGUI
 
             if (target.GetFloat("_RedChGlowZone") > 0)
             {
-                editor.ShaderProperty(Mode, MakeLabel("Mode", "Tooltip Here"));
+                editor.ShaderProperty(Mode, MakeLabel("Mode", "Animation type"));
                 editor.ColorProperty(Tint, "Tint");
-                editor.ShaderProperty(MinBrightness, MakeLabel("Min Brightness", "Tooltip Here"));
+                editor.ShaderProperty(MinBrightness, MakeLabel("Min Brightness", "Limits how dim effects become"));
 
                 if (target.GetFloat("_RedChGlowZone") > 4 || target.GetFloat("_RedChGlowMode") > 0)
                 {
                     if (target.GetFloat("_RedChGlowMode") < 2)
                     {
-                        editor.ShaderProperty(PulseDir, MakeLabel("Pulse Dir", "Tooltip Here"));
+                        editor.ShaderProperty(PulseDir, MakeLabel("Pulse Dir", "Pulse mode animation direction"));
                     }
-                    editor.ShaderProperty(PulseScale, MakeLabel("Pulse Scale", "Tooltip Here"));
-                    editor.ShaderProperty(PulseOffset, MakeLabel("Pulse Offset", "Tooltip Here"));
+                    editor.ShaderProperty(PulseScale, MakeLabel("Pulse Scale", "Pulse mode animation scale"));
+                    editor.ShaderProperty(PulseOffset, MakeLabel("Pulse Offset", "Pulse mode animation offset"));
                 }
 
                 if (target.GetFloat("_RedChGlowMode") == 2)
                 {
-                    editor.ShaderProperty(PulseCenter, MakeLabel("Radial Center", "Tooltip Here"));
+                    editor.ShaderProperty(PulseCenter, MakeLabel("Radial Center", "Radial mode animation center"));
                 }
 
-                if (target.GetFloat("_SparkleGlowZone") > 4 || target.GetFloat("_SparkleGlowMode") > 0)
+                if (target.GetFloat("_RedChGlowZone") > 4 || target.GetFloat("_RedChGlowMode") > 0)
                 {
-                editor.ShaderProperty(AnimBand, MakeLabel("Animation Band", "Tooltip Here"));
-                editor.ShaderProperty(AnimMode, MakeLabel("Animation Mode", "Tooltip Here"));
-                editor.ShaderProperty(AnimSpeed, MakeLabel("Animation Speed", "Tooltip Here"));
-                editor.ShaderProperty(AnimStr, MakeLabel("Animation Strength", "Tooltip Here"));
+                editor.ShaderProperty(AnimBand, MakeLabel("Animation Band", "AudioLink: Audio band to listen to"));
+                editor.ShaderProperty(AnimMode, MakeLabel("Animation Mode", "AudioLink: Animation type"));
+                editor.ShaderProperty(AnimSpeed, MakeLabel("Animation Speed", "AudioLink: Animation speed/Chronotensity"));
+                editor.ShaderProperty(AnimStr, MakeLabel("Animation Strength", "AudioLink: Animation strength"));
                 }
 
             }
@@ -946,24 +946,24 @@ public class FuralityShaderUI : ShaderGUI
 
             if (target.GetFloat("_RedChReactiveBand") < 10)
             {
-                editor.ShaderProperty(Mode, MakeLabel("Mode", "Tooltip Here"));
-                editor.ShaderProperty(BlendMode, MakeLabel("Blend Mode", "Tooltip Here"));
+                editor.ShaderProperty(Mode, MakeLabel("Mode", "AudioLink: Animation type"));
+                editor.ShaderProperty(BlendMode, MakeLabel("Blend Mode", "AudioLink: How effects combine"));
                 editor.ColorProperty(Tint, "Tint");
-                editor.ShaderProperty(MinBrightness, MakeLabel("Min Brightness", "Tooltip Here"));
+                editor.ShaderProperty(MinBrightness, MakeLabel("Min Brightness", "AudioLink: Limits how dim effects become"));
 
                 if (target.GetFloat("_RedChReactiveBand") > 4 || target.GetFloat("_RedChReactiveMode") > 0 && target.GetFloat("_RedChReactiveMode") != 5)
                 {
                     if (target.GetFloat("_RedChReactiveMode") < 2)
                     {
-                        editor.ShaderProperty(PulseDir, MakeLabel("Pulse Dir", "Tooltip Here"));
+                        editor.ShaderProperty(PulseDir, MakeLabel("Pulse Dir", "AudioLink: Pulse mode animation direction"));
                     }
-                    editor.ShaderProperty(PulseScale, MakeLabel("Pulse Scale", "Tooltip Here"));
-                    editor.ShaderProperty(PulseOffset, MakeLabel("Pulse Offset", "Tooltip Here"));
+                    editor.ShaderProperty(PulseScale, MakeLabel("Pulse Scale", "AudioLink: Pulse mode animation scale"));
+                    editor.ShaderProperty(PulseOffset, MakeLabel("Pulse Offset", "AudioLink: Pulse mode animation offset"));
                 }
 
                 if (target.GetFloat("_RedChReactiveMode") == 2)
                 {
-                    editor.ShaderProperty(PulseCenter, MakeLabel("Radial Center", "Tooltip Here"));
+                    editor.ShaderProperty(PulseCenter, MakeLabel("Radial Center", "AudioLink: Radial mode animation center"));
                 }
             }
             EditorGUI.indentLevel -= 1;
@@ -980,7 +980,7 @@ public class FuralityShaderUI : ShaderGUI
     {
         Zone operation = (Zone)target.GetFloat("_GreenChGlowZone");
         EditorGUI.BeginChangeCheck();
-        operation = (Zone)EditorGUILayout.EnumPopup(MakeLabel("Zone", "Tooltip Here"), operation);
+        operation = (Zone)EditorGUILayout.EnumPopup(MakeLabel("Zone", "Select a zone to enable Luma Glow, masked by Glow Mask(G)"), operation);
 
         if (EditorGUI.EndChangeCheck())
         {
@@ -1026,31 +1026,31 @@ public class FuralityShaderUI : ShaderGUI
 
             if (target.GetFloat("_GreenChGlowZone") > 0)
             {
-                editor.ShaderProperty(Mode, MakeLabel("Mode", "Tooltip Here"));
+                editor.ShaderProperty(Mode, MakeLabel("Mode", "Animation type"));
                 editor.ColorProperty(Tint, "Tint");
-                editor.ShaderProperty(MinBrightness, MakeLabel("Min Brightness", "Tooltip Here"));
+                editor.ShaderProperty(MinBrightness, MakeLabel("Min Brightness", "Limits how dim effects become"));
 
                 if (target.GetFloat("_GreenChGlowZone") > 4 || target.GetFloat("_GreenChGlowMode") > 0)
                 {
                     if (target.GetFloat("_GreenChGlowMode") < 2)
                     {
-                        editor.ShaderProperty(PulseDir, MakeLabel("Pulse Dir", "Tooltip Here"));
+                        editor.ShaderProperty(PulseDir, MakeLabel("Pulse Dir", "Pulse mode animation direction"));
                     }
-                    editor.ShaderProperty(PulseScale, MakeLabel("Pulse Scale", "Tooltip Here"));
-                    editor.ShaderProperty(PulseOffset, MakeLabel("Pulse Offset", "Tooltip Here"));
+                    editor.ShaderProperty(PulseScale, MakeLabel("Pulse Scale", "Pulse mode animation scale"));
+                    editor.ShaderProperty(PulseOffset, MakeLabel("Pulse Offset", "Pulse mode animation offset"));
                 }
 
                 if (target.GetFloat("_GreenChGlowMode") == 2)
                 {
-                    editor.ShaderProperty(PulseCenter, MakeLabel("Radial Center", "Tooltip Here"));
+                    editor.ShaderProperty(PulseCenter, MakeLabel("Radial Center", "Radial mode animation center"));
                 }
 
-                if (target.GetFloat("_SparkleGlowZone") > 4 || target.GetFloat("_SparkleGlowMode") > 0)
+                if (target.GetFloat("_GreenChGlowZone") > 4 || target.GetFloat("_GreenChGlowMode") > 0)
                 {
-                editor.ShaderProperty(AnimBand, MakeLabel("Animation Band", "Tooltip Here"));
-                editor.ShaderProperty(AnimMode, MakeLabel("Animation Mode", "Tooltip Here"));
-                editor.ShaderProperty(AnimSpeed, MakeLabel("Animation Speed", "Tooltip Here"));
-                editor.ShaderProperty(AnimStr, MakeLabel("Animation Strength", "Tooltip Here"));
+                editor.ShaderProperty(AnimBand, MakeLabel("Animation Band", "AudioLink: Audio band to listen to"));
+                editor.ShaderProperty(AnimMode, MakeLabel("Animation Mode", "AudioLink: Animation type"));
+                editor.ShaderProperty(AnimSpeed, MakeLabel("Animation Speed", "AudioLink: Animation speed/chronotensity"));
+                editor.ShaderProperty(AnimStr, MakeLabel("Animation Strength", "AudioLink: Animation strength"));
                 }
 
             }
@@ -1098,24 +1098,24 @@ public class FuralityShaderUI : ShaderGUI
 
             if (target.GetFloat("_GreenChReactiveBand") < 10)
             {
-                editor.ShaderProperty(Mode, MakeLabel("Mode", "Tooltip Here"));
-                editor.ShaderProperty(BlendMode, MakeLabel("Blend Mode", "Tooltip Here"));
+                editor.ShaderProperty(Mode, MakeLabel("Mode", "AudioLink: Animation type"));
+                editor.ShaderProperty(BlendMode, MakeLabel("Blend Mode", "AudioLink: How effects combine"));
                 editor.ColorProperty(Tint, "Tint");
-                editor.ShaderProperty(MinBrightness, MakeLabel("Min Brightness", "Tooltip Here"));
+                editor.ShaderProperty(MinBrightness, MakeLabel("Min Brightness", "AudioLink: Limits how dim effects become"));
 
                 if (target.GetFloat("_GreenChReactiveBand") > 4 || target.GetFloat("_GreenChReactiveMode") > 0 && target.GetFloat("_GreenChReactiveMode") != 5)
                 {
                     if (target.GetFloat("_GreenChReactiveMode") < 2)
                     {
-                        editor.ShaderProperty(PulseDir, MakeLabel("Pulse Dir", "Tooltip Here"));
+                        editor.ShaderProperty(PulseDir, MakeLabel("Pulse Dir", "AudioLink: Pulse mode animation direction"));
                     }
-                    editor.ShaderProperty(PulseScale, MakeLabel("Pulse Scale", "Tooltip Here"));
-                    editor.ShaderProperty(PulseOffset, MakeLabel("Pulse Offset", "Tooltip Here"));
+                    editor.ShaderProperty(PulseScale, MakeLabel("Pulse Scale", "Pulse mode animation scale"));
+                    editor.ShaderProperty(PulseOffset, MakeLabel("Pulse Offset", "Pulse mode animation offset"));
                 }
 
                 if (target.GetFloat("_GreenChReactiveMode") == 2)
                 {
-                    editor.ShaderProperty(PulseCenter, MakeLabel("Radial Center", "Tooltip Here"));
+                    editor.ShaderProperty(PulseCenter, MakeLabel("Radial Center", "Radial mode animation center"));
                 }
             }
             EditorGUI.indentLevel -= 1;
@@ -1132,7 +1132,7 @@ public class FuralityShaderUI : ShaderGUI
     {
         Zone operation = (Zone)target.GetFloat("_BlueChGlowZone");
         EditorGUI.BeginChangeCheck();
-        operation = (Zone)EditorGUILayout.EnumPopup(MakeLabel("Zone", "Tooltip Here"), operation);
+        operation = (Zone)EditorGUILayout.EnumPopup(MakeLabel("Zone", "Select a zone to enable Luma Glow, masked by Glow Mask(B)"), operation);
 
         if (EditorGUI.EndChangeCheck())
         {
@@ -1178,31 +1178,31 @@ public class FuralityShaderUI : ShaderGUI
 
             if (target.GetFloat("_BlueChGlowZone") > 0)
             {
-                editor.ShaderProperty(Mode, MakeLabel("Mode", "Tooltip Here"));
+                editor.ShaderProperty(Mode, MakeLabel("Mode", "Animation type"));
                 editor.ColorProperty(Tint, "Tint");
-                editor.ShaderProperty(MinBrightness, MakeLabel("Min Brightness", "Tooltip Here"));
+                editor.ShaderProperty(MinBrightness, MakeLabel("Min Brightness", "Limits how dim effects become"));
 
                 if (target.GetFloat("_BlueChGlowZone") > 4 || target.GetFloat("_BlueChGlowMode") > 0)
                 {
                     if (target.GetFloat("_BlueChGlowMode") < 2)
                     {
-                        editor.ShaderProperty(PulseDir, MakeLabel("Pulse Dir", "Tooltip Here"));
+                        editor.ShaderProperty(PulseDir, MakeLabel("Pulse Dir", "Pulse mode animation direction"));
                     }
-                    editor.ShaderProperty(PulseScale, MakeLabel("Pulse Scale", "Tooltip Here"));
-                    editor.ShaderProperty(PulseOffset, MakeLabel("Pulse Offset", "Tooltip Here"));
+                    editor.ShaderProperty(PulseScale, MakeLabel("Pulse Scale", "Pulse mode animation scale"));
+                    editor.ShaderProperty(PulseOffset, MakeLabel("Pulse Offset", "Pulse mode animation offset"));
                 }
 
                 if (target.GetFloat("_BlueChGlowMode") == 2)
                 {
-                    editor.ShaderProperty(PulseCenter, MakeLabel("Radial Center", "Tooltip Here"));
+                    editor.ShaderProperty(PulseCenter, MakeLabel("Radial Center", "Radial mode animation center"));
                 }
 
-                if (target.GetFloat("_SparkleGlowZone") > 4 || target.GetFloat("_SparkleGlowMode") > 0)
+                if (target.GetFloat("_BlueChGlowZone") > 4 || target.GetFloat("_BlueChGlowMode") > 0)
                 {
-                editor.ShaderProperty(AnimBand, MakeLabel("Animation Band", "Tooltip Here"));
-                editor.ShaderProperty(AnimMode, MakeLabel("Animation Mode", "Tooltip Here"));
-                editor.ShaderProperty(AnimSpeed, MakeLabel("Animation Speed", "Tooltip Here"));
-                editor.ShaderProperty(AnimStr, MakeLabel("Animation Strength", "Tooltip Here"));
+                editor.ShaderProperty(AnimBand, MakeLabel("Animation Band", "AudioLink: Audio band to listen to"));
+                editor.ShaderProperty(AnimMode, MakeLabel("Animation Mode", "AudioLink: Animation type"));
+                editor.ShaderProperty(AnimSpeed, MakeLabel("Animation Speed", "AudioLink: Animation speed/chronotensity"));
+                editor.ShaderProperty(AnimStr, MakeLabel("Animation Strength", "AudioLink: Animation strength"));
                 }
 
             }
@@ -1250,24 +1250,24 @@ public class FuralityShaderUI : ShaderGUI
 
             if (target.GetFloat("_BlueChReactiveBand") < 10)
             {
-                editor.ShaderProperty(Mode, MakeLabel("Mode", "Tooltip Here"));
-                editor.ShaderProperty(BlendMode, MakeLabel("Blend Mode", "Tooltip Here"));
+                editor.ShaderProperty(Mode, MakeLabel("Mode", "AudioLink: Animation type"));
+                editor.ShaderProperty(BlendMode, MakeLabel("Blend Mode", "AudioLink: How effects combine"));
                 editor.ColorProperty(Tint, "Tint");
-                editor.ShaderProperty(MinBrightness, MakeLabel("Min Brightness", "Tooltip Here"));
+                editor.ShaderProperty(MinBrightness, MakeLabel("Min Brightness", "AudioLink: Limits how dim effects become"));
 
                 if (target.GetFloat("_BlueChReactiveBand") > 4 || target.GetFloat("_BlueChReactiveMode") > 0 && target.GetFloat("_BlueChReactiveMode") != 5)
                 {
                     if (target.GetFloat("_BlueChReactiveMode") < 2)
                     {
-                        editor.ShaderProperty(PulseDir, MakeLabel("Pulse Dir", "Tooltip Here"));
+                        editor.ShaderProperty(PulseDir, MakeLabel("Pulse Dir", "AudioLink: Pulse mode animation direction"));
                     }
-                    editor.ShaderProperty(PulseScale, MakeLabel("Pulse Scale", "Tooltip Here"));
-                    editor.ShaderProperty(PulseOffset, MakeLabel("Pulse Offset", "Tooltip Here"));
+                    editor.ShaderProperty(PulseScale, MakeLabel("Pulse Scale", "AudioLink: Pulse mode animation scale"));
+                    editor.ShaderProperty(PulseOffset, MakeLabel("Pulse Offset", "AudioLink: Pulse mode animation offset"));
                 }
 
                 if (target.GetFloat("_BlueChReactiveMode") == 2)
                 {
-                    editor.ShaderProperty(PulseCenter, MakeLabel("Radial Center", "Tooltip Here"));
+                    editor.ShaderProperty(PulseCenter, MakeLabel("Radial Center", "AudioLink: Radial mode animation center"));
                 }
             }
             EditorGUI.indentLevel -= 1;
@@ -1284,7 +1284,7 @@ public class FuralityShaderUI : ShaderGUI
     {
         Zone operation = (Zone)target.GetFloat("_AlphaChGlowZone");
         EditorGUI.BeginChangeCheck();
-        operation = (Zone)EditorGUILayout.EnumPopup(MakeLabel("Zone", "Tooltip Here"), operation);
+        operation = (Zone)EditorGUILayout.EnumPopup(MakeLabel("Zone", "Select a zone to enable Luma Glow, masked by Glow Mask(A)"), operation);
 
         if (EditorGUI.EndChangeCheck())
         {
@@ -1330,31 +1330,31 @@ public class FuralityShaderUI : ShaderGUI
 
             if (target.GetFloat("_AlphaChGlowZone") > 0)
             {
-                editor.ShaderProperty(Mode, MakeLabel("Mode", "Tooltip Here"));
+                editor.ShaderProperty(Mode, MakeLabel("Mode", "Animation type"));
                 editor.ColorProperty(Tint, "Tint");
-                editor.ShaderProperty(MinBrightness, MakeLabel("Min Brightness", "Tooltip Here"));
+                editor.ShaderProperty(MinBrightness, MakeLabel("Min Brightness", "Limts how dim effects become"));
 
                 if (target.GetFloat("_AlphaChGlowZone") > 4 || target.GetFloat("_AlphaChGlowMode") > 0)
                 {
                     if (target.GetFloat("_AlphaChGlowMode") < 2)
                     {
-                        editor.ShaderProperty(PulseDir, MakeLabel("Pulse Dir", "Tooltip Here"));
+                        editor.ShaderProperty(PulseDir, MakeLabel("Pulse Dir", "Pulse mode animation direction"));
                     }
-                    editor.ShaderProperty(PulseScale, MakeLabel("Pulse Scale", "Tooltip Here"));
-                    editor.ShaderProperty(PulseOffset, MakeLabel("Pulse Offset", "Tooltip Here"));
+                    editor.ShaderProperty(PulseScale, MakeLabel("Pulse Scale", "Pulse mode animation scale"));
+                    editor.ShaderProperty(PulseOffset, MakeLabel("Pulse Offset", "Pulse mode animation offset"));
                 }
 
                 if (target.GetFloat("_AlphaChGlowMode") == 2)
                 {
-                    editor.ShaderProperty(PulseCenter, MakeLabel("Radial Center", "Tooltip Here"));
+                    editor.ShaderProperty(PulseCenter, MakeLabel("Radial Center", "Radial mode animation center"));
                 }
 
-                if (target.GetFloat("_SparkleGlowZone") > 4 || target.GetFloat("_SparkleGlowMode") > 0)
+                if (target.GetFloat("_AlphaChGlowZone") > 4 || target.GetFloat("_AlphaChGlowMode") > 0)
                 {
-                editor.ShaderProperty(AnimBand, MakeLabel("Animation Band", "Tooltip Here"));
-                editor.ShaderProperty(AnimMode, MakeLabel("Animation Mode", "Tooltip Here"));
-                editor.ShaderProperty(AnimSpeed, MakeLabel("Animation Speed", "Tooltip Here"));
-                editor.ShaderProperty(AnimStr, MakeLabel("Animation Strength", "Tooltip Here"));
+                editor.ShaderProperty(AnimBand, MakeLabel("Animation Band", "AudioLink: Audio band to listen to"));
+                editor.ShaderProperty(AnimMode, MakeLabel("Animation Mode", "AudioLink: Animation type"));
+                editor.ShaderProperty(AnimSpeed, MakeLabel("Animation Speed", "AudioLink: Animation speed/chronotensity"));
+                editor.ShaderProperty(AnimStr, MakeLabel("Animation Strength", "AudioLink: Animation strength"));
                 }
 
             }
@@ -1402,24 +1402,24 @@ public class FuralityShaderUI : ShaderGUI
 
             if (target.GetFloat("_AlphaChReactiveBand") < 10)
             {
-                editor.ShaderProperty(Mode, MakeLabel("Mode", "Tooltip Here"));
-                editor.ShaderProperty(BlendMode, MakeLabel("Blend Mode", "Tooltip Here"));
+                editor.ShaderProperty(Mode, MakeLabel("Mode", "AudioLink: Animation type"));
+                editor.ShaderProperty(BlendMode, MakeLabel("Blend Mode", "AudioLink: How effects combine"));
                 editor.ColorProperty(Tint, "Tint");
-                editor.ShaderProperty(MinBrightness, MakeLabel("Min Brightness", "Tooltip Here"));
+                editor.ShaderProperty(MinBrightness, MakeLabel("Min Brightness", "AudioLink: Limits how dim effects become"));
 
                 if (target.GetFloat("_AlphaChReactiveBand") > 4 || target.GetFloat("_AlphaChReactiveMode") > 0 && target.GetFloat("_AlphaChReactiveMode") != 5)
                 {
                     if (target.GetFloat("_AlphaChReactiveMode") < 2)
                     {
-                        editor.ShaderProperty(PulseDir, MakeLabel("Pulse Dir", "Tooltip Here"));
+                        editor.ShaderProperty(PulseDir, MakeLabel("Pulse Dir", "AudioLink: Pulse mode animation direction"));
                     }
-                    editor.ShaderProperty(PulseScale, MakeLabel("Pulse Scale", "Tooltip Here"));
-                    editor.ShaderProperty(PulseOffset, MakeLabel("Pulse Offset", "Tooltip Here"));
+                    editor.ShaderProperty(PulseScale, MakeLabel("Pulse Scale", "AudioLink: Pulse mode animation scale"));
+                    editor.ShaderProperty(PulseOffset, MakeLabel("Pulse Offset", "AudioLink: Pulse mode animation offset"));
                 }
 
                 if (target.GetFloat("_AlphaChReactiveMode") == 2)
                 {
-                    editor.ShaderProperty(PulseCenter, MakeLabel("Radial Center", "Tooltip Here"));
+                    editor.ShaderProperty(PulseCenter, MakeLabel("Radial Center", "AudioLink: Radial mode animation center"));
                 }
             }
             EditorGUI.indentLevel -= 1;
@@ -1436,7 +1436,7 @@ public class FuralityShaderUI : ShaderGUI
     {
         Zone operation = (Zone)target.GetFloat("_SparkleGlowZone");
         EditorGUI.BeginChangeCheck();
-        operation = (Zone)EditorGUILayout.EnumPopup(MakeLabel("Zone", "Tooltip Here"), operation);
+        operation = (Zone)EditorGUILayout.EnumPopup(MakeLabel("Zone", "Select a zone to enable Luma Glow, masked by sparkles"), operation);
 
         if (EditorGUI.EndChangeCheck())
         {
@@ -1482,32 +1482,32 @@ public class FuralityShaderUI : ShaderGUI
 
             if (target.GetFloat("_SparkleGlowZone") > 0)
             {
-                editor.ShaderProperty(Mode, MakeLabel("Mode", "Tooltip Here"));
+                editor.ShaderProperty(Mode, MakeLabel("Mode", "Animation type"));
                 editor.ColorProperty(Tint, "Tint");
-                editor.ShaderProperty(MinBrightness, MakeLabel("Min Brightness", "Tooltip Here"));
+                editor.ShaderProperty(MinBrightness, MakeLabel("Min Brightness", "Limits how dim effects become"));
 
                 if (target.GetFloat("_SparkleGlowZone") > 4 || target.GetFloat("_SparkleGlowMode") > 0)
                 {
                     if (target.GetFloat("_SparkleGlowMode") < 2)
                     {
-                        editor.ShaderProperty(PulseDir, MakeLabel("Pulse Dir", "Tooltip Here"));
+                        editor.ShaderProperty(PulseDir, MakeLabel("Pulse Dir", "Pulse mode animation direction"));
                     }
-                    editor.ShaderProperty(PulseScale, MakeLabel("Pulse Scale", "Tooltip Here"));
-                    editor.ShaderProperty(PulseOffset, MakeLabel("Pulse Offset", "Tooltip Here"));
+                    editor.ShaderProperty(PulseScale, MakeLabel("Pulse Scale", "Pulse mode animation scale"));
+                    editor.ShaderProperty(PulseOffset, MakeLabel("Pulse Offset", "Pulse mode animation offset"));
 
                 }
 
                 if (target.GetFloat("_SparkleGlowMode") == 2)
                 {
-                    editor.ShaderProperty(PulseCenter, MakeLabel("Radial Center", "Tooltip Here"));
+                    editor.ShaderProperty(PulseCenter, MakeLabel("Radial Center", "Radial mode animation center"));
                 }
 
                 if (target.GetFloat("_SparkleGlowZone") > 4 || target.GetFloat("_SparkleGlowMode") > 0)
                 {
-                editor.ShaderProperty(AnimBand, MakeLabel("Animation Band", "Tooltip Here"));
-                editor.ShaderProperty(AnimMode, MakeLabel("Animation Mode", "Tooltip Here"));
-                editor.ShaderProperty(AnimSpeed, MakeLabel("Animation Speed", "Tooltip Here"));
-                editor.ShaderProperty(AnimStr, MakeLabel("Animation Strength", "Tooltip Here"));
+                editor.ShaderProperty(AnimBand, MakeLabel("Animation Band", "AudioLink: Audio band to listen to"));
+                editor.ShaderProperty(AnimMode, MakeLabel("Animation Mode", "AudioLink: Animation type"));
+                editor.ShaderProperty(AnimSpeed, MakeLabel("Animation Speed", "AudioLink: Animation speed/chronotensity"));
+                editor.ShaderProperty(AnimStr, MakeLabel("Animation Strength", "AudioLink: Animation strength"));
                 }
 
             }
@@ -1555,24 +1555,24 @@ public class FuralityShaderUI : ShaderGUI
 
             if (target.GetFloat("_SparkleReactiveBand") < 10)
             {
-                editor.ShaderProperty(Mode, MakeLabel("Mode", "Tooltip Here"));
-                editor.ShaderProperty(BlendMode, MakeLabel("Blend Mode", "Tooltip Here"));
+                editor.ShaderProperty(Mode, MakeLabel("Mode", "AudioLink: Animation type"));
+                editor.ShaderProperty(BlendMode, MakeLabel("Blend Mode", "AudioLink: How effects combine"));
                 editor.ColorProperty(Tint, "Tint");
-                editor.ShaderProperty(MinBrightness, MakeLabel("Min Brightness", "Tooltip Here"));
+                editor.ShaderProperty(MinBrightness, MakeLabel("Min Brightness", "AudioLink: Limits how dim effects become"));
 
                 if (target.GetFloat("_SparkleReactiveBand") > 4 || target.GetFloat("_SparkleReactiveMode") > 0 && target.GetFloat("_SparkleReactiveMode") != 5)
                 {
                     if (target.GetFloat("_SparkleReactiveMode") < 2)
                     {
-                        editor.ShaderProperty(PulseDir, MakeLabel("Pulse Dir", "Tooltip Here"));
+                        editor.ShaderProperty(PulseDir, MakeLabel("Pulse Dir", "AudioLink: Pulse mode animation direction"));
                     }
-                    editor.ShaderProperty(PulseScale, MakeLabel("Pulse Scale", "Tooltip Here"));
-                    editor.ShaderProperty(PulseOffset, MakeLabel("Pulse Offset", "Tooltip Here"));
+                    editor.ShaderProperty(PulseScale, MakeLabel("Pulse Scale", "Pulse mode animation scale"));
+                    editor.ShaderProperty(PulseOffset, MakeLabel("Pulse Offset", "Pulse mode animation offset"));
                 }
 
                 if (target.GetFloat("_SparkleReactiveMode") == 2)
                 {
-                    editor.ShaderProperty(PulseCenter, MakeLabel("Radial Center", "Tooltip Here"));
+                    editor.ShaderProperty(PulseCenter, MakeLabel("Radial Center", "Radial mode animation center"));
                 }
             }
             EditorGUI.indentLevel -= 1;
@@ -1620,20 +1620,20 @@ public class FuralityShaderUI : ShaderGUI
                 MaterialProperty seed = FindProperty("_SparkleSeed");
                 MaterialProperty blendMode = FindProperty("_SparkleBlendMode");
 
-                editor.ShaderProperty(maskCh, MakeLabel("Masking Channel", "Tooltip Here"));
-                editor.ShaderProperty(mode, MakeLabel("Mode", "Tooltip Here"));
+                editor.ShaderProperty(maskCh, MakeLabel("Masking Channel", "Effect Mask color channel to use"));
+                editor.ShaderProperty(mode, MakeLabel("Mode", "How sparkles react to light"));
 
                 if (target.GetFloat("_SparkleMode") > 0)
                 {
-                editor.ShaderProperty(blendMode, MakeLabel("Blend Mode", "Tooltip Here"));
+                editor.ShaderProperty(blendMode, MakeLabel("Blend Mode", "How the effect combines with lighting"));
                 }
 
-                editor.ShaderProperty(shape, MakeLabel("Shape", "Tooltip Here"));
+                editor.ShaderProperty(shape, MakeLabel("Shape", "Changes the shape of sparkles"));
                 editor.ColorProperty(color, "Sparkle Color");
-                editor.ShaderProperty(size, MakeLabel("Size", "Tooltip Here"));
-                editor.ShaderProperty(scale, MakeLabel("Scale", "Tooltip Here"));
-                editor.ShaderProperty(speed, MakeLabel("Speed", "Tooltip Here"));
-                editor.ShaderProperty(seed, MakeLabel("Seed", "Tooltip Here"));
+                editor.ShaderProperty(size, MakeLabel("Size", "Sparkle size"));
+                editor.ShaderProperty(scale, MakeLabel("Scale", "Sparkle tiling"));
+                editor.ShaderProperty(speed, MakeLabel("Speed", "Sparkle flicker rate"));
+                editor.ShaderProperty(seed, MakeLabel("Seed", "Use a high number for best results"));
 
                 EditorGUI.indentLevel -= 2;
                 DoSparkleGlow();
@@ -1691,9 +1691,9 @@ public class FuralityShaderUI : ShaderGUI
                 MaterialProperty AnimSpeed = FindProperty("_RainbowALAnimationSpeed");
                 MaterialProperty AnimStr = FindProperty("_RainbowALAnimationStrength");
 
-                editor.ShaderProperty(maskCh, MakeLabel("Masking Channel", "Tooltip Here"));
-                editor.ShaderProperty(mode, MakeLabel("Mode", "Tooltip Here"));
-                editor.ShaderProperty(hueRange, MakeLabel("Hue Range", "Tooltip Here"));
+                editor.ShaderProperty(maskCh, MakeLabel("Masking Channel", "Effect mask color channel to use"));
+                editor.ShaderProperty(mode, MakeLabel("Mode", "Animation type"));
+                editor.ShaderProperty(hueRange, MakeLabel("Hue Range", "Range of colors to show"));
                 editor.ShaderProperty(hue, MakeLabel("Hue"));
                 editor.ShaderProperty(sat, MakeLabel("Saturation"));
                 editor.ShaderProperty(val, MakeLabel("Value"));
@@ -1707,7 +1707,7 @@ public class FuralityShaderUI : ShaderGUI
 
                 if (target.GetFloat("_RainbowUVMode") == 2)
                 {
-                editor.ShaderProperty(curve, MakeLabel("Spiral Curve", "Tooltip Here"));
+                editor.ShaderProperty(curve, MakeLabel("Spiral Curve", "Tightens the spiral effct"));
                 }
 
                 if (target.GetFloat("_RainbowUVMode") == 1 || target.GetFloat("_RainbowUVMode") == 2)
@@ -1715,10 +1715,10 @@ public class FuralityShaderUI : ShaderGUI
                     editor.ShaderProperty(center, MakeLabel("Radial Center"));
                 }
 
-                editor.ShaderProperty(AnimBand, MakeLabel("AudioLink Band", "Tooltip Here"));
-                editor.ShaderProperty(AnimMode, MakeLabel("Animation Mode", "Tooltip Here"));
-                editor.ShaderProperty(AnimSpeed, MakeLabel("Animation Speed", "Tooltip Here"));
-                editor.ShaderProperty(AnimStr, MakeLabel("Animation Strength", "Tooltip Here"));
+                editor.ShaderProperty(AnimBand, MakeLabel("AudioLink Band", "AudioLink: Audio band to listen to"));
+                editor.ShaderProperty(AnimMode, MakeLabel("Animation Mode", "AudioLink: Animation type"));
+                editor.ShaderProperty(AnimSpeed, MakeLabel("Animation Speed", "AudioLink: Animation speed/chronotensity"));
+                editor.ShaderProperty(AnimStr, MakeLabel("Animation Strength", "AudioLink: Animation strength"));
             }
 
             EditorGUI.indentLevel -= 1;
@@ -1771,11 +1771,11 @@ public class FuralityShaderUI : ShaderGUI
                 MaterialProperty AnimSpeed = FindProperty("_IridescentALAnimationSpeed");
                 MaterialProperty AnimStr = FindProperty("_IridescentALAnimationStrength");
 
-                editor.ShaderProperty(maskCh, MakeLabel("Masking Channel", "Tooltip Here"));
-                editor.ShaderProperty(mode2, MakeLabel("Mode", "Tooltip Here"));
-                editor.ShaderProperty(mode, MakeLabel("Color Mode", "Tooltip Here"));
-                editor.ShaderProperty(lightMode, MakeLabel("Light Mode", "Tooltip Here"));
-                editor.ShaderProperty(intensity, MakeLabel("Intensity", "Tooltip Here"));
+                editor.ShaderProperty(maskCh, MakeLabel("Masking Channel", "Effect Mask color channel to use"));
+                editor.ShaderProperty(mode2, MakeLabel("Mode", "How the effect reacts to light"));
+                editor.ShaderProperty(mode, MakeLabel("Color Mode", "How the effect displays colors"));
+                editor.ShaderProperty(lightMode, MakeLabel("Light Mode", "Which lighting to react to"));
+                editor.ShaderProperty(intensity, MakeLabel("Intensity"));
                 editor.ShaderProperty(scale, MakeLabel("Scale"));
                 editor.ShaderProperty(offset, MakeLabel("Offset"));
                 if (target.GetFloat("_IridescentEmissionMode") != 2 && target.GetFloat("_IridescentEmissionMode") != 4)
@@ -1785,10 +1785,10 @@ public class FuralityShaderUI : ShaderGUI
                     editor.ColorProperty(color3, "Color 3");
                 }
 
-                editor.ShaderProperty(AnimBand, MakeLabel("AudioLink Band", "Tooltip Here"));
-                editor.ShaderProperty(AnimMode, MakeLabel("Animation Mode", "Tooltip Here"));
-                editor.ShaderProperty(AnimSpeed, MakeLabel("Animation Speed", "Tooltip Here"));
-                editor.ShaderProperty(AnimStr, MakeLabel("Animation Strength", "Tooltip Here"));
+                editor.ShaderProperty(AnimBand, MakeLabel("AudioLink Band", "AudioLink: Audio band to listen to"));
+                editor.ShaderProperty(AnimMode, MakeLabel("Animation Mode", "AudioLink: Animation type"));
+                editor.ShaderProperty(AnimSpeed, MakeLabel("Animation Speed", "AudioLink: Animation speed/chronotensity"));
+                editor.ShaderProperty(AnimStr, MakeLabel("Animation Strength", "AudioLink: Animation strength"));
             }
 
             EditorGUI.indentLevel -= 1;
@@ -1848,7 +1848,7 @@ public class FuralityShaderUI : ShaderGUI
     {
         MaterialProperty clip = FindProperty("_MaskClipValue");
 
-        editor.ShaderProperty(clip, MakeLabel("Mask Clip", "Tooltip Here"));
+        editor.ShaderProperty(clip, MakeLabel("Mask Clip"));
     }
 
     void DoBlendMode()

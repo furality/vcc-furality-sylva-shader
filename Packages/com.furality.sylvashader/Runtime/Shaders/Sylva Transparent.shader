@@ -1621,6 +1621,7 @@ Shader "Furality/Sylva Shader/Sylva Transparent"
 			float4 temp_cast_242 = (IndirectAlpha1165).xxxx;
 			float4 SpecularTex394 = ( tex2D( _SpecGlossMap, uv_MainTex ) * _SpecColor );
 			float4 MainTex147_g4905 = MainTex224;
+			float3 hsvTorgb85_g4905 = RGBToHSV( MainTex147_g4905.rgb );
 			int Band6_g4906 = _IridescentALAnimationBand;
 			int Mode6_g4906 = ( ( _IridescentALAnimationMode * 2 ) + _IridescentALAnimationSpeed );
 			int localAudioLinkDecodeDataAsUInt6_g4906 = AudioLinkDecodeDataAsUInt6_g4906( Band6_g4906 , Mode6_g4906 );
@@ -1658,8 +1659,8 @@ Shader "Furality/Sylva Shader/Sylva Transparent"
 			float4 lerpResult32_g4905 = lerp( lerpResult26_g4905 , _IridescentEmissionColor3 , ( 1.0 - temp_output_2_0_g4910 ));
 			float4 Colors149_g4905 = lerpResult32_g4905;
 			float3 hsvTorgb86_g4905 = RGBToHSV( Colors149_g4905.rgb );
-			float3 hsvTorgb85_g4905 = RGBToHSV( MainTex147_g4905.rgb );
-			float3 hsvTorgb87_g4905 = HSVToRGB( float3(hsvTorgb86_g4905.x,hsvTorgb85_g4905.y,hsvTorgb85_g4905.z) );
+			float lerpResult249_g4905 = lerp( hsvTorgb85_g4905.x , hsvTorgb86_g4905.x , hsvTorgb86_g4905.z);
+			float3 hsvTorgb87_g4905 = HSVToRGB( float3(lerpResult249_g4905,hsvTorgb85_g4905.y,hsvTorgb85_g4905.z) );
 			float Intensity132_g4905 = _IridescentIntensity;
 			float4 lerpResult205_g4905 = lerp( MainTex147_g4905 , float4( hsvTorgb87_g4905 , 0.0 ) , saturate( Intensity132_g4905 ));
 			int temp_output_52_0_g4905 = ( _IridescentEmissionMode - 1 );
@@ -3336,7 +3337,6 @@ Node;AmplifyShaderEditor.RegisterLocalVarNode;90;-1410.964,-2767.599;Inherit;Fal
 Node;AmplifyShaderEditor.RegisterLocalVarNode;1144;-1546.305,-2910.684;Inherit;False;SmoothnessColorMult;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;1145;-2345.992,-693.0366;Inherit;False;1144;SmoothnessColorMult;1;0;OBJECT;;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;1146;-1698.886,-501.7159;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RegisterLocalVarNode;224;-2484.676,-3439.029;Inherit;False;MainTex;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.GetLocalVarNode;1048;4322.479,-94.13754;Inherit;False;224;MainTex;1;0;OBJECT;;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;1149;-2887.883,-734.886;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;1148;-3251.883,-930.886;Inherit;False;224;MainTex;1;0;OBJECT;;False;1;COLOR;0
@@ -3429,6 +3429,7 @@ Node;AmplifyShaderEditor.SimpleMultiplyOpNode;1222;-2104.902,-3174.934;Inherit;F
 Node;AmplifyShaderEditor.DynamicAppendNode;1223;-1967.902,-3221.934;Inherit;False;FLOAT3;4;0;FLOAT2;0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;243;-1821.6,-3250.549;Inherit;False;Normal;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SamplerNode;246;-2794.355,-3038.931;Inherit;True;Property;_MetallicGlossMap;Metallic;18;1;[SingleLineTexture];Create;False;0;0;0;False;0;False;-1;None;f2c6f9ea8a04acf46b40ee0b846c7d83;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RegisterLocalVarNode;224;-2484.676,-3439.029;Inherit;False;MainTex;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 WireConnection;388;0;302;0
 WireConnection;388;1;389;0
 WireConnection;101;0;100;0
@@ -3770,7 +3771,6 @@ WireConnection;90;0;255;0
 WireConnection;1144;0;1143;0
 WireConnection;1146;0;381;0
 WireConnection;1146;1;1145;0
-WireConnection;224;0;223;0
 WireConnection;1149;0;1150;3
 WireConnection;1149;1;59;4
 WireConnection;1150;0;1148;0
@@ -3827,5 +3827,6 @@ WireConnection;1223;0;241;0
 WireConnection;1223;2;1222;0
 WireConnection;243;0;1223;0
 WireConnection;246;1;269;0
+WireConnection;224;0;223;0
 ASEEND*/
-//CHKSM=9BED17BFF434CB52D17FF2FF8D1194B46EB0BA36
+//CHKSM=8D6EE91A07492B47CB73EAC6A27A1635B95AFFAB

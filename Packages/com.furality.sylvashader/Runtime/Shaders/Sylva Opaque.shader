@@ -1569,6 +1569,7 @@ Shader "Furality/Sylva Shader/Sylva Opaque"
 			float4 SpecularTex394 = ( tex2D( _SpecGlossMap, uv_MainTex ) * _SpecColor );
 			float4 MainTex224 = tex2D( _MainTex, uv_MainTex );
 			float4 MainTex147_g4905 = MainTex224;
+			float3 hsvTorgb85_g4905 = RGBToHSV( MainTex147_g4905.rgb );
 			int Band6_g4906 = _IridescentALAnimationBand;
 			int Mode6_g4906 = ( ( _IridescentALAnimationMode * 2 ) + _IridescentALAnimationSpeed );
 			int localAudioLinkDecodeDataAsUInt6_g4906 = AudioLinkDecodeDataAsUInt6_g4906( Band6_g4906 , Mode6_g4906 );
@@ -1627,8 +1628,8 @@ Shader "Furality/Sylva Shader/Sylva Opaque"
 			float4 lerpResult32_g4905 = lerp( lerpResult26_g4905 , _IridescentEmissionColor3 , ( 1.0 - temp_output_2_0_g4910 ));
 			float4 Colors149_g4905 = lerpResult32_g4905;
 			float3 hsvTorgb86_g4905 = RGBToHSV( Colors149_g4905.rgb );
-			float3 hsvTorgb85_g4905 = RGBToHSV( MainTex147_g4905.rgb );
-			float3 hsvTorgb87_g4905 = HSVToRGB( float3(hsvTorgb86_g4905.x,hsvTorgb85_g4905.y,hsvTorgb85_g4905.z) );
+			float lerpResult249_g4905 = lerp( hsvTorgb85_g4905.x , hsvTorgb86_g4905.x , hsvTorgb86_g4905.z);
+			float3 hsvTorgb87_g4905 = HSVToRGB( float3(lerpResult249_g4905,hsvTorgb85_g4905.y,hsvTorgb85_g4905.z) );
 			float Intensity132_g4905 = _IridescentIntensity;
 			float4 lerpResult205_g4905 = lerp( MainTex147_g4905 , float4( hsvTorgb87_g4905 , 0.0 ) , saturate( Intensity132_g4905 ));
 			int temp_output_52_0_g4905 = ( _IridescentEmissionMode - 1 );
@@ -3801,4 +3802,4 @@ WireConnection;1221;0;241;0
 WireConnection;1221;2;1220;0
 WireConnection;246;1;269;0
 ASEEND*/
-//CHKSM=979EFC14E0816ADF5944C22760D8A33DCD7F409F
+//CHKSM=C825AC9101E7E6A66F6A27A39709DEE6FFB0DCD6
