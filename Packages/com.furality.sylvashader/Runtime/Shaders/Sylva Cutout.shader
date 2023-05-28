@@ -654,6 +654,14 @@ Shader "Furality/Sylva Shader/Sylva Cutout"
 		}
 
 
+		float3 ReflectionProbeSample( float3 uvw )
+		{
+			half4 skyData = UNITY_SAMPLE_TEXCUBE_LOD(unity_SpecCube0, uvw, 5); //('cubemap', 'sample coordinate', 'map-map level')
+			         half3 skyColor = DecodeHDR (skyData, unity_SpecCube0_HDR);
+			         return half4(skyColor, 1.0);
+		}
+
+
 		inline int IsLumaActive11_g5131( int Band )
 		{
 			return AudioLinkData( ALPASS_AUDIOLINK + uint2( 0, Band ) ).r;
@@ -1546,7 +1554,8 @@ Shader "Furality/Sylva Shader/Sylva Cutout"
 			float4 tex2DNode246 = tex2D( _MetallicGlossMap, uv_MainTex );
 			float lerpResult255 = lerp( _Glossiness , ( tex2DNode246.a * _GlossMapScale ) , step( 10.0 , max( _MetallicGlossMap_TexelSize.z , _MetallicGlossMap_TexelSize.w ) ));
 			float Smoothness90 = lerpResult255;
-			float Occlusion272 = pow( tex2D( _OcclusionMap, uv_MainTex ).g , _OcclusionStrength );
+			float4 tex2DNode386 = tex2D( _OcclusionMap, uv_MainTex );
+			float Occlusion272 = (( 1.0 - _OcclusionStrength ) + (tex2DNode386.g - 0.0) * (1.0 - ( 1.0 - _OcclusionStrength )) / (1.0 - 0.0));
 			Unity_GlossyEnvironmentData g151 = UnityGlossyEnvironmentSetup( Smoothness90, data.worldViewDir, indirectNormal151, float3(0,0,0));
 			float3 indirectSpecular151 = UnityGI_IndirectSpecular( data, Occlusion272, indirectNormal151, g151 );
 			float3 ase_worldPos = i.worldPos;
@@ -1944,7 +1953,10 @@ Shader "Furality/Sylva Shader/Sylva Cutout"
 			float4 uvw518 = appendResult517;
 			float3 localgetProbes518 = getProbes( uvw518 );
 			float3 lerpResult520 = lerp( ( localgetProbes501 * 0.65 ) , localgetProbes518 , ( ToonNdotL514 * Attenuation533 ));
-			float3 ToonAmbience521 = lerpResult520;
+			float3 uvw1237 = (WorldNormalVector( i , Normal243 ));
+			float3 localReflectionProbeSample1237 = ReflectionProbeSample( uvw1237 );
+			float3 lerpResult1239 = lerp( lerpResult520 , localReflectionProbeSample1237 , 0.5);
+			float3 ToonAmbience521 = lerpResult1239;
 			float4 lerpResult578 = lerp( float4( ToonAmbience521 , 0.0 ) , ase_lightColor , staticSwitch575);
 			float4 InitialLightColor589 = ( lerpResult578 * Attenuation533 );
 			float4 lightColor45 = InitialLightColor589;
@@ -2936,7 +2948,7 @@ Version=19105
 Node;AmplifyShaderEditor.CommentaryNode;1217;1967.137,3467.509;Inherit;False;2277.787;663.5576;Comment;26;1203;1204;1205;1206;1200;1201;1202;1198;1199;1207;1197;1208;1211;1209;1210;1213;1214;1212;1216;1215;1196;1195;1194;1193;1191;1192;Outline Properties to make UI work;1,1,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;794;1332.497,1390.873;Inherit;False;961.6262;243.937;Comment;5;791;798;790;789;787;Luma Glow;1,1,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;639;-8884.074,-1676.043;Inherit;False;3010.964;860.379;Comment;27;568;569;570;571;572;574;573;577;575;583;592;582;576;584;32;588;578;581;589;580;533;627;629;630;632;628;1232;Light Color + Attenuation;1,1,1,1;0;0
-Node;AmplifyShaderEditor.CommentaryNode;403;-3335.939,-3496.149;Inherit;False;2162.522;1530.744;Comment;40;90;1143;1142;386;241;223;391;246;302;1065;383;380;852;225;272;392;385;394;384;224;393;247;255;254;252;7;253;251;269;250;243;388;242;389;1144;1221;1222;1223;1224;1225;Texture Assignment;1,1,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;403;-3335.939,-3496.149;Inherit;False;2162.522;1530.744;Comment;42;90;1143;1142;386;241;223;391;246;302;1065;383;380;852;225;272;392;385;394;384;224;393;247;255;254;252;7;253;251;269;250;243;388;242;389;1144;1221;1222;1223;1224;1225;1233;1234;Texture Assignment;1,1,1,1;0;0
 Node;AmplifyShaderEditor.RangedFloatNode;389;-3188.197,-3056.841;Inherit;False;Constant;_Float3;Float 3;14;0;Create;True;0;0;0;False;0;False;1.25;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.TextureCoordinatesNode;242;-3006.6,-3221.549;Inherit;False;0;223;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;388;-2970.259,-3105.271;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
@@ -2970,7 +2982,7 @@ Node;AmplifyShaderEditor.GetLocalVarNode;256;-2846.284,-985.8676;Inherit;False;9
 Node;AmplifyShaderEditor.SimpleMaxOpNode;71;-1072.621,-1085.356;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;177;-2854.646,-916.5242;Inherit;False;Constant;_Float0;Float 0;10;0;Create;True;0;0;0;False;0;False;0.3;0.4;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.NormalizeNode;13;-1100.339,-1258.164;Inherit;False;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.CommentaryNode;563;-6117.17,1090.775;Inherit;False;1218.21;440.525;Comment;13;512;516;519;511;534;513;517;501;535;518;520;521;594;Toon Ambience;1,1,1,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;563;-6117.17,1090.775;Inherit;False;1218.21;440.525;Comment;14;512;516;519;511;534;513;517;501;535;518;520;521;594;1239;Toon Ambience;1,1,1,1;0;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;39;-939.8036,-1090.568;Inherit;False;NdotL;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.TFHCRemapNode;176;-2657.246,-978.5247;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;1;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;25;-960.3385,-1262.164;Inherit;False;halfDir;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
@@ -3403,6 +3415,13 @@ Node;AmplifyShaderEditor.SamplerNode;246;-2794.355,-3038.931;Inherit;True;Proper
 Node;AmplifyShaderEditor.FunctionNode;1230;4586.708,44.20444;Inherit;False;Applfy Effects;226;;5272;86ee36ff59e1113469676c1c5ac8dd3c;0;7;31;COLOR;0,0,0,0;False;15;FLOAT3;0,0,1;False;16;COLOR;0,0,1,0;False;2;COLOR;0,0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT3;0,0,0;False;23;FLOAT;0;False;3;FLOAT4;0;FLOAT4;38;FLOAT4;39
 Node;AmplifyShaderEditor.FunctionNode;1231;4793.75,336.9004;Inherit;False;Iridescent Emission;208;;5306;2a6b7ed36109aad45b1d6a13ef93c485;0;8;214;FLOAT;0;False;215;FLOAT;0;False;207;FLOAT;0;False;165;FLOAT3;0,0,0;False;84;COLOR;0,0,0,0;False;21;FLOAT3;0,0,1;False;44;COLOR;0,0,0,0;False;56;COLOR;0,0,0,0;False;2;COLOR;0;COLOR;93
 Node;AmplifyShaderEditor.SaturateNode;1232;-8272.269,-1090.341;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.TFHCRemapNode;1233;-2315.807,-2522.223;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;4;FLOAT;1;False;1;FLOAT;0
+Node;AmplifyShaderEditor.OneMinusNode;1234;-2489.807,-2445.223;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.GetLocalVarNode;1235;-5967.06,1589.113;Inherit;False;243;Normal;1;0;OBJECT;;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.WorldNormalVector;1236;-5800.929,1593.515;Inherit;False;False;1;0;FLOAT3;0,0,1;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
+Node;AmplifyShaderEditor.CustomExpressionNode;1237;-5588.343,1583.874;Inherit;False;half4 skyData = UNITY_SAMPLE_TEXCUBE_LOD(unity_SpecCube0, uvw, 5)@ //('cubemap', 'sample coordinate', 'map-map level')$         half3 skyColor = DecodeHDR (skyData, unity_SpecCube0_HDR)@$         return half4(skyColor, 1.0)@;3;Create;1;True;uvw;FLOAT3;0,0,0;In;;Inherit;False;ReflectionProbeSample;False;True;0;;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.RangedFloatNode;1238;-5489.102,1661.833;Inherit;False;Constant;_Float23;Float 23;54;0;Create;True;0;0;0;False;0;False;0.5;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.LerpOp;1239;-5233.102,1406.833;Inherit;False;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;1;FLOAT3;0
 WireConnection;388;0;302;0
 WireConnection;388;1;389;0
 WireConnection;101;0;100;0
@@ -3520,7 +3539,7 @@ WireConnection;138;0;115;0
 WireConnection;138;1;114;0
 WireConnection;138;2;116;0
 WireConnection;138;3;117;0
-WireConnection;272;0;392;0
+WireConnection;272;0;1233;0
 WireConnection;23;0;163;0
 WireConnection;544;0;537;0
 WireConnection;544;1;543;0
@@ -3744,7 +3763,7 @@ WireConnection;0;0;378;0
 WireConnection;0;2;793;0
 WireConnection;0;10;1183;0
 WireConnection;0;13;169;0
-WireConnection;521;0;520;0
+WireConnection;521;0;1239;0
 WireConnection;158;0;165;0
 WireConnection;1165;0;162;0
 WireConnection;1168;0;848;0
@@ -3802,5 +3821,13 @@ WireConnection;1231;21;1011;0
 WireConnection;1231;44;1027;0
 WireConnection;1231;56;983;0
 WireConnection;1232;0;571;0
+WireConnection;1233;0;386;2
+WireConnection;1233;3;1234;0
+WireConnection;1234;0;391;0
+WireConnection;1236;0;1235;0
+WireConnection;1237;0;1236;0
+WireConnection;1239;0;520;0
+WireConnection;1239;1;1237;0
+WireConnection;1239;2;1238;0
 ASEEND*/
-//CHKSM=AB1381E6C5526A3DD641BE9133AE282A2E2FAEE4
+//CHKSM=DCD6FB7CD4DB073BECE6D7852936B7649535929B
