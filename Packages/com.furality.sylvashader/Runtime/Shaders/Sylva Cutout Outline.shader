@@ -668,13 +668,13 @@ Shader "Furality/Sylva Shader/Sylva Cutout Outline"
 		uniform float _IridescentScale;
 		uniform float _IridescentOffset;
 		uniform float4 _IridescentEmissionColor3;
-		uniform float _IridescentIntensity;
-		uniform int _IridescentEmissionMode;
 		uniform float _Glossiness;
 		uniform sampler2D _MetallicGlossMap;
 		uniform float _GlossMapScale;
 		float4 _MetallicGlossMap_TexelSize;
 		uniform int _IridescenceLightMode;
+		uniform float _IridescentIntensity;
+		uniform int _IridescentEmissionMode;
 		uniform float _Enableiridescence;
 		uniform float4 _Color;
 		uniform sampler2D _OcclusionMap;
@@ -1439,17 +1439,17 @@ Shader "Furality/Sylva Shader/Sylva Cutout Outline"
 		}
 
 
+		inline float ggx( float nh, float roughness )
+		{
+			return GGXTerm(nh, roughness);
+		}
+
+
 		float3 HSVToRGB( float3 c )
 		{
 			float4 K = float4( 1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0 );
 			float3 p = abs( frac( c.xxx + K.xyz ) * 6.0 - K.www );
 			return c.z * lerp( K.xxx, saturate( p - K.xxx ), c.y );
-		}
-
-
-		inline float ggx( float nh, float roughness )
-		{
-			return GGXTerm(nh, roughness);
 		}
 
 
@@ -3096,19 +3096,8 @@ Shader "Furality/Sylva Shader/Sylva Cutout Outline"
 			float temp_output_2_0_g5015 = pow( ( 1.0 / 2.71828 ) , pow( ( -( 1.0 - 4.0 ) * max( ( temp_output_34_0_g5010 - 1.0 ) , 0.0 ) ) , 2.0 ) );
 			float temp_output_38_0_g5010 = ( 1.0 - temp_output_2_0_g5015 );
 			float4 lerpResult32_g5010 = lerp( lerpResult26_g5010 , _IridescentEmissionColor3 , temp_output_38_0_g5010);
-			float Intensity132_g5010 = _IridescentIntensity;
-			float4 temp_output_110_0_g5010 = ( lerpResult32_g5010 * Intensity132_g5010 );
-			float4 lerpResult46_g5010 = lerp( ( temp_output_110_0_g5010 + EmissionRGBA135_g5010 ) , ( temp_output_110_0_g5010 * EmissionRGBA135_g5010 ) , (float)saturate( _IridescentEmissionMode ));
-			float AnimatedDot130_g5010 = ( temp_output_211_0_g5010 + EmissionGlowAnimation62_g5010 );
-			float3 hsvTorgb3_g5017 = HSVToRGB( float3(AnimatedDot130_g5010,1.0,1.0) );
-			int temp_output_52_0_g5010 = ( _IridescentEmissionMode - 1 );
-			float4 lerpResult54_g5010 = lerp( lerpResult46_g5010 , ( EmissionRGBA135_g5010 + float4( ( hsvTorgb3_g5017 * Intensity132_g5010 ) , 0.0 ) ) , (float)saturate( temp_output_52_0_g5010 ));
-			int temp_output_90_0_g5010 = ( temp_output_52_0_g5010 - 1 );
-			int temp_output_91_0_g5010 = saturate( temp_output_90_0_g5010 );
-			float4 lerpResult89_g5010 = lerp( lerpResult54_g5010 , EmissionRGBA135_g5010 , (float)temp_output_91_0_g5010);
-			float4 lerpResult82_g5010 = lerp( EmissionRGBA135_g5010 , ( temp_output_55_0_g5010 * lerpResult89_g5010 ) , temp_output_55_0_g5010);
 			#ifdef UNITY_PASS_FORWARDBASE
-				float4 staticSwitch108_g5010 = lerpResult82_g5010;
+				float4 staticSwitch108_g5010 = lerpResult32_g5010;
 			#else
 				float4 staticSwitch108_g5010 = float4( 0,0,0,0 );
 			#endif
@@ -3150,7 +3139,18 @@ Shader "Furality/Sylva Shader/Sylva Cutout Outline"
 			float Atten232_g5010 = temp_output_208_0_g5010;
 			float temp_output_233_0_g5010 = ( lerpResult222_g5010 * Atten232_g5010 );
 			float4 lerpResult229_g5010 = lerp( staticSwitch108_g5010 , ( staticSwitch108_g5010 * temp_output_233_0_g5010 ) , (float)temp_output_225_0_g5010);
-			float4 lerpResult246_g5010 = lerp( EmissionRGBA135_g5010 , lerpResult229_g5010 , _Enableiridescence);
+			float Intensity132_g5010 = _IridescentIntensity;
+			float4 temp_output_110_0_g5010 = ( lerpResult229_g5010 * Intensity132_g5010 );
+			float4 lerpResult46_g5010 = lerp( ( temp_output_110_0_g5010 + EmissionRGBA135_g5010 ) , ( temp_output_110_0_g5010 * EmissionRGBA135_g5010 ) , (float)saturate( _IridescentEmissionMode ));
+			float AnimatedDot130_g5010 = ( temp_output_211_0_g5010 + EmissionGlowAnimation62_g5010 );
+			float3 hsvTorgb3_g5017 = HSVToRGB( float3(AnimatedDot130_g5010,1.0,1.0) );
+			int temp_output_52_0_g5010 = ( _IridescentEmissionMode - 1 );
+			float4 lerpResult54_g5010 = lerp( lerpResult46_g5010 , ( EmissionRGBA135_g5010 + float4( ( hsvTorgb3_g5017 * Intensity132_g5010 ) , 0.0 ) ) , (float)saturate( temp_output_52_0_g5010 ));
+			int temp_output_90_0_g5010 = ( temp_output_52_0_g5010 - 1 );
+			int temp_output_91_0_g5010 = saturate( temp_output_90_0_g5010 );
+			float4 lerpResult89_g5010 = lerp( lerpResult54_g5010 , EmissionRGBA135_g5010 , (float)temp_output_91_0_g5010);
+			float4 lerpResult82_g5010 = lerp( EmissionRGBA135_g5010 , ( temp_output_55_0_g5010 * lerpResult89_g5010 ) , temp_output_55_0_g5010);
+			float4 lerpResult246_g5010 = lerp( EmissionRGBA135_g5010 , lerpResult82_g5010 , _Enableiridescence);
 			float4 FinalEmission1029 = lerpResult246_g5010;
 			o.Emission = FinalEmission1029.rgb;
 		}
@@ -4110,4 +4110,4 @@ WireConnection;1210;3;988;0
 WireConnection;1210;4;986;0
 WireConnection;1210;23;1032;0
 ASEEND*/
-//CHKSM=521FF0AD393FB278319A19A3EA75DCAF8C0343D7
+//CHKSM=1D552EF7F2962F6D0D1A50F62D8903528548F733
